@@ -4,12 +4,11 @@ metadata:
   name: my-cluster
   namespace: kafka
   annotations:
-    strimzi.io/kraft: enabled # ZooKeeper-based
-    strimzi.io/node-pools: enabled # Node pools enabled
+    strimzi.io/kraft: enabled
+    strimzi.io/node-pools: enabled
 spec:
   kafka:
     version: 4.1.0
-    replicas: 1
     listeners:
       - name: plain
         port: 9092
@@ -26,13 +25,7 @@ spec:
       transaction.state.log.min.isr: 1
       default.replication.factor: 1
       min.insync.replicas: 1
-      inter.broker.protocol.version: "3.5"
-    storage:
-      type: ephemeral
-  zookeeper:
-    replicas: 3
-    storage:
-      type: ephemeral
+      inter.broker.protocol.version: "4.1"
   entityOperator:
     topicOperator: {}
     userOperator: {}

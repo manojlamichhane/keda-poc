@@ -58,3 +58,15 @@ Because the consumers sleep between consuming each message, there'll be a conges
 ```sh
 curl http://<EXTERNAL-IP-OF-PRODUCER-SVC>?count=100
 ```
+
+In kodekloud we may not be able to get the EXTERNAL-IP-OF-PRODUCER-SVC. In that case, we should port forward of the service 
+
+```sh
+kubectl port-forward service/kafka-producer-service 80:80
+```
+
+Then perform 
+
+```sh
+curl http://localhost:80?count=100
+```
