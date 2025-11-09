@@ -14,7 +14,11 @@ This demo uses [kafka-producer](serdarkalayci/kafka-producer) and [kafka-consume
 Follow the steps below to install the demo from scratch.
 
 ### Strimzi Kafka Operator Deployment
-You can run [install-strimzi.sh](install-strimzi.sh) file, or copy and paste commands in the exact order to your terminal in order to install Smrimzi Kafka operator and deploy a single-broker and single-zookeeper Kafka cluster. The [cluster definition](kafka-cluster-ephemeral.yaml) is a copy of Strimzi's own [example](https://github.com/strimzi/strimzi-kafka-operator/blob/0.37.0/examples/kafka/kafka-ephemeral-single.yaml) with a tweak that won't allow auto topic creation. This is to prevent the producer from creating topics automatically, which creates topic with 1 partition and 1 replica by default. This in turn makes more than 1 consumers useless, and the whole demo becomes pointless.
+You can run [install-strimzi.sh](install-strimzi.sh) file, or copy and paste commands in the exact order to your terminal in order to install Smrimzi Kafka operator and deploy a single-broker and single-zookeeper Kafka cluster. Make sure to provide access permission to the file if you don't have it by 
+```sh
+chmod 777 install-strimzi.sh
+```
+The [cluster definition](kafka-cluster-ephemeral.yaml) is a copy of Strimzi's own [example](https://github.com/strimzi/strimzi-kafka-operator/blob/0.37.0/examples/kafka/kafka-ephemeral-single.yaml) with a tweak that won't allow auto topic creation and installs Kraft instead of zookeeper. This is to prevent the producer from creating topics automatically, which creates topic with 1 partition and 1 replica by default. This in turn makes more than 1 consumers useless, and the whole demo becomes pointless.
 When the cluster is in `Ready` state, you can create the topic by applying [topic.yaml](topic.yaml) file.
 ```sh
 kubectl apply -f topic.yaml
@@ -22,6 +26,10 @@ kubectl apply -f topic.yaml
 
 ## KEDA Operator Deployment
 You can run [install-keda.sh](install-keda.sh) file, file, or copy and paste commands in the exact order to your terminal in order to install KEDA operator. If you prefer other deployment options than Helm, you can follow instructions [here](https://keda.sh/docs/2.5/deploy/).
+Make sure to provide access permission to the file if you don't have it by 
+```sh
+chmod 777 install-keda.sh
+```
 
 ## Kafka Producer Deployment
 Kafka producer used in this demo exposes a web interface to interact with the end user. User can make requests to this endpoint to make producer produce messages on the topic a total number as a given URL parameter.
@@ -31,6 +39,7 @@ You can change the exposed port, Kafka Bootstrap address and Topic name using En
 You can create a producer deployment and expose it using a LoadBalancer service. If you prefer you can use [port-forwarding](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/) instead of a LoadBalancer service.
 
 ```sh
+kubectl create ns keda-demo
 kubectl apply -f producer-deployment.yaml
 kubectl apply -f producer-svc.yaml
 ```
