@@ -71,7 +71,7 @@ curl http://<EXTERNAL-IP-OF-PRODUCER-SVC>?count=100
 In kodekloud we may not be able to get the EXTERNAL-IP-OF-PRODUCER-SVC. In that case, we should port forward of the service 
 
 ```sh
-kubectl port-forward service/kafka-producer-service 80:80
+kubectl port-forward service/kafka-producer-service -n=keda-demo 80:80
 ```
 
 Then perform 
